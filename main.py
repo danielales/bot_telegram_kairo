@@ -4,14 +4,13 @@ from bs4 import BeautifulSoup
 import telebot
 from telebot import types
 
-#bardo, dani mete mano
+#Gemini AI
 import google.generativeai as genai
 import os
 os.environ["API_KEY"] = "AIzaSyC5OOCqO21uth2OpNiI_HpVVpfS2J68aZc"
 genai.configure(api_key=os.environ["API_KEY"])
 model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
-#bardo out
 
 # Token del bot de Telegram
 TOKEN = "7527210724:AAFc0kxGluOo_wezme4-rA_i6JYVwAIEYNc"
@@ -53,21 +52,10 @@ def obtener_eventos():
         lugar = elemento.find_all('div', class_='card-icons-landing')[1] if elemento.find_all('div', class_='card-icons-landing') else None
         link_lugar = lugar.find('a', class_='landing-url-map') if lugar else None
 
-
-
-        'version original'
-        #descripcion_container = elemento.find('div', class_='card-info-landing')
-
-        #descripcion = descripcion_container.find('p') if descripcion_container else None 
-
-        'version erronea'
-        #descripcion = elemento.find('p') if elemento.find_all('p') else None 
-
-        'version original lista para modificar'
+        'descripcion'
         descripcion_container = elemento.find('div', class_='card-info-landing')
 
         descripcion = descripcion_container.find('p') if descripcion_container else None 
-
 
 
         link_evento = elemento.find('a', class_='QHS2024')
@@ -138,13 +126,12 @@ def mostrar_detalles_evento(message):
 def regresar_menu_principal(message):
     send_welcome(message)
 
-#dani
+#Gemini AI
 @bot.message_handler(func=lambda message: True)
 def responder_mensaje(message):
     pregunta = message.text
     respuesta = model.generate_content(pregunta)
     bot.send_message(message.chat.id, respuesta.text)
-#dani2 fin quilombo
 
 # Iniciar el bot
 bot.polling()
